@@ -1,0 +1,51 @@
+ AIExplorer
+import os
+import subprocess
+
+# Define project structure and files
+project_name = "ml_project"
+dirs = [
+    project_name,
+    os.path.join(project_name, "data"),
+    os.path.join(project_name, "notebooks"),
+    os.path.join(project_name, "src"),
+    os.path.join(project_name, "tests")
+]
+files = {
+    os.path.join(project_name, "README.md"): "# Machine Learning Project\n\nA brief description of the machine learning project.",
+    os.path.join(project_name, "requirements.txt"): "numpy\npandas\nscikit-learn\njupyter",
+    os.path.join(project_name, ".gitignore"): "__pycache__/\n*.pyc\n.ipynb_checkpoints/\n.env",
+    os.path.join(project_name, "notebooks", "exploration.ipynb"): "",
+    os.path.join(project_name, "src", "__init__.py"): "",
+    os.path.join(project_name, "src", "data_preprocessing.py"): "import pandas as pd\n\n# Add your data preprocessing code here",
+    os.path.join(project_name, "tests", "test_data_preprocessing.py"): "import unittest\nfrom src.data_preprocessing import *\n\n# Add your tests here\n\nif __name__ == '__main__':\n    unittest.main()"
+}
+
+# Function to create files with initial content
+def create_file(filepath, content=""):
+    with open(filepath, 'w') as file:
+        file.write(content)
+
+# Create directories and files
+def create_project_structure():
+    for dir in dirs:
+        os.makedirs(dir, exist_ok=True)
+
+    for filepath, content in files.items():
+        create_file(filepath, content)
+
+    print(f"Project structure created under '{project_name}' directory.")
+
+# Initialize Git repository, add, commit, and push to GitHub
+def initialize_git_repo():
+    os.chdir(project_name)
+    subprocess.run(["git", "init"])
+    subprocess.run(["git", "add", "."])
+    subprocess.run(["git", "commit", "-m", "Initial commit"])
+    # Replace the URL with your GitHub repository URL
+    subprocess.run(["git", "remote", "add", "origin", "https://github.com/your-username/your-repository.git"])
+    subprocess.run(["git", "push", "-u", "origin", "master"])
+
+if __name__ == "__main__":
+    create_project_structure()
+    initialize_git_repo()
